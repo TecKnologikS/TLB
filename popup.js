@@ -16,6 +16,10 @@ function createList(lstVillage) {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
+    
+    document.querySelector('#selectList').addEventListener('change',function(){
+        document.getElementById('listid').value = this.value;
+    });
 
   /////// BUTTON SAVE
   var checkPageButton = document.getElementById('checkPage');
@@ -63,6 +67,36 @@ document.addEventListener('DOMContentLoaded', function() {
     );
     
   }, false);
+  
+    var checkList = document.getElementById('checkList');
+  checkList.addEventListener('click', function() {
+    console.log('checkList');
+    var codeJS = `
+    (function getList() {
+      var lstList=[];
+      var lst = document.getElementsByClassName('listEntry');
+      for (var i = 0; i< lst.length; i++) { 
+        lstList.push([lst[i].id.replace('list', ''), lst[i].getElementsByClassName('listTitleText')[0].innerText]);
+      }
+      return lstList;
+    })()
+    `;
+    chrome.tabs.executeScript( null, 
+                              {code:codeJS},
+            function(results){
+              if (results[0].length > 0) {
+                for (var i = 0; i < results[0].length; i++) {
+                     liste = document.getElementById('selectList');
+                    liste.options[liste.options.length] = new Option(results[0][i][1], results[0][i][0]);
+                    if (i == 0) {
+                        document.getElementById('listid').value = results[0][i][0];
+                    } 
+            }}} 
+    );
+    
+  }, false);
+  
+  
 
 var clearButton = document.getElementById('clearButton');
   clearButton.addEventListener('click', function() {
