@@ -25,9 +25,10 @@ function createPillage(pillage, coord) {
 
 
 function addIt() {
+	console.log('add it');
 	var originalPillage;
 	var idList;
-var listPillage = [];
+	var listPillage = [];
 		chrome.storage.sync.get("pillage", function(result){
     if (result.pillage) {
     	originalPillage = JSON.parse(result.pillage);

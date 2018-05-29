@@ -23,9 +23,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (document.getElementById('listid').value != "") {
       chrome.storage.sync.set({"idList":  document.getElementById('listid').value});
     }
-    if (document.getElementById('pillage').value != "") {
-      chrome.storage.sync.set({"list":  document.getElementById('pillage').value});
-    }
+    
     var pillage = {};
 
     pillage.lid = "" + document.getElementById('listid').value;
@@ -36,11 +34,9 @@ document.addEventListener('DOMContentLoaded', function() {
     pillage.t5 = "" + document.getElementById('t5').value;
     pillage.t6 = "" + document.getElementById('t6').value;
     pillage.t7 = "" + document.getElementById('t7').value;
-    pillage.t8 = "" + document.getElementById('t8').value;
-    pillage.t9 = "" + document.getElementById('t9').value;
-
-    chrome.storage.sync.set({"pillage":  JSON.stringify(pillage)});
     
+    chrome.storage.sync.set({"pillage":  JSON.stringify(pillage)});
+    chrome.tabs.reload();
   }, false);
 
   /////// BUTTON CREATE LIST
@@ -91,6 +87,7 @@ var clearButton = document.getElementById('clearButton');
     chrome.tabs.executeScript( null, 
                               {code:codeJS},
             function(results){
+      console.log(results);
               if (results[0].length > 0) {
                 createList(results[0]);
               } 
