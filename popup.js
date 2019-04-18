@@ -6,8 +6,8 @@ function createList(lstVillage) {
   for (var i = 0; i  < lstVillage.length; i++) {
     var pillage = {};
 
-    pillage.x = lstVillage[i].split('|')[0] + "";
-    pillage.y = lstVillage[i].split('|')[1] + "";
+    pillage.x = lstVillage[i].split('|')[0].replace(/\D/g,''); + "";
+    pillage.y = lstVillage[i].split('|')[1].replace(/\D/g,''); + "";
 
     pillageList.push(pillage);
   }
@@ -16,7 +16,7 @@ function createList(lstVillage) {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-    
+
     document.querySelector('#selectList').addEventListener('change',function(){
         document.getElementById('listid').value = this.value;
     });
@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (document.getElementById('listid').value != "") {
       chrome.storage.sync.set({"idList":  document.getElementById('listid').value});
     }
-    
+
     var pillage = {};
 
     pillage.lid = "" + document.getElementById('listid').value;
@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', function() {
     pillage.t5 = "" + document.getElementById('t5').value;
     pillage.t6 = "" + document.getElementById('t6').value;
     pillage.t7 = "" + document.getElementById('t7').value;
-    
+
     chrome.storage.sync.set({"pillage":  JSON.stringify(pillage)});
     chrome.tabs.reload();
   }, false);
@@ -57,17 +57,17 @@ document.addEventListener('DOMContentLoaded', function() {
       return lstPillage;
     })()
     `;
-    chrome.tabs.executeScript( null, 
+    chrome.tabs.executeScript( null,
                               {code:codeJS},
             function(results){
               if (results[0].length > 0) {
                 createList(results[0]);
-              } 
-            } 
+              }
+            }
     );
-    
+
   }, false);
-  
+
     var checkList = document.getElementById('checkList');
   checkList.addEventListener('click', function() {
     console.log('checkList');
@@ -75,13 +75,13 @@ document.addEventListener('DOMContentLoaded', function() {
     (function getList() {
       var lstList=[];
       var lst = document.getElementsByClassName('listEntry');
-      for (var i = 0; i< lst.length; i++) { 
+      for (var i = 0; i< lst.length; i++) {
         lstList.push([lst[i].id.replace('list', ''), lst[i].getElementsByClassName('listTitleText')[0].innerText]);
       }
       return lstList;
     })()
     `;
-    chrome.tabs.executeScript( null, 
+    chrome.tabs.executeScript( null,
                               {code:codeJS},
             function(results){
               if (results[0].length > 0) {
@@ -90,18 +90,18 @@ document.addEventListener('DOMContentLoaded', function() {
                     liste.options[liste.options.length] = new Option(results[0][i][1], results[0][i][0]);
                     if (i == 0) {
                         document.getElementById('listid').value = results[0][i][0];
-                    } 
-            }}} 
+                    }
+            }}}
     );
-    
+
   }, false);
-  
-  
+
+
 
 var clearButton = document.getElementById('clearButton');
   clearButton.addEventListener('click', function() {
     console.log('getlist');
-    chrome.storage.sync.set({"list":  JSON.stringify([])});    
+    chrome.storage.sync.set({"list":  JSON.stringify([])});
   }, false);
 
   /////// BUTTON CREATE LIST INACTIVE SEARCH
@@ -118,17 +118,16 @@ var clearButton = document.getElementById('clearButton');
       return lstPillage;
     })()
     `;
-    chrome.tabs.executeScript( null, 
+    chrome.tabs.executeScript( null,
                               {code:codeJS},
             function(results){
       console.log(results);
               if (results[0].length > 0) {
                 createList(results[0]);
-              } 
-            } 
+              }
+            }
     );
-    
+
   }, false);
 
 }, false);
-

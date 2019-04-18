@@ -1,10 +1,14 @@
 
 function injectFunction(id, pillage) {
+	console.log("injectFunction");
 	var actualCode = `
 	Travian.Game.RaidList.addSlot(` + id +  `,'','','rallyPoint');
-	setTimeout(function(){ 
-	Travian.Game.RaidList.saveSlot(` + id +  `, JSON.parse('` + pillage +  `'), true, null ); }
-	, 1000);
+	setTimeout(function(){
+		Travian.Game.RaidList.saveSlot(` + id +  `, null, JSON.parse('` + pillage +  `'), false);
+		setTimeout(function(){
+			document.location.reload(true);
+		}, 2000);
+	}, 1000);
 	`;
 	console.log(actualCode);
 	var script = document.createElement('script');
@@ -37,13 +41,14 @@ function addIt() {
 			listPillage = JSON.parse(result.list);
         	if (listPillage.length > 0) {
 				var pillage = listPillage[0];
+				console.log(pillage);
 				listPillage.shift();
 				chrome.storage.sync.set({"list":  JSON.stringify(listPillage)});
 				injectFunction(originalPillage.lid, JSON.stringify(createPillage(originalPillage, pillage)));
 			}
 		}
 	});
-    }    
+    }
 });
 
 }
@@ -51,5 +56,6 @@ function addIt() {
 window.addEventListener ("load", myMain, false);
 
 function myMain (evt) {
+	console.log("mymain");
            addIt();
 }
