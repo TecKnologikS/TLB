@@ -20,7 +20,7 @@ function injectFunction(id, pillage) {
 function createPillage(pillage, coord) {
     pillage.x = coord.x + "";
     pillage.y = coord.y + "";
-
+		console.log(coord);
 	return pillage;
 }
 
@@ -36,6 +36,7 @@ function addIt() {
 		chrome.storage.sync.get("pillage", function(result){
     if (result.pillage) {
     	originalPillage = JSON.parse(result.pillage);
+			console.log(originalPillage);
     	chrome.storage.sync.get("list", function(result){
         if (result.list) {
 			listPillage = JSON.parse(result.list);

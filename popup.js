@@ -6,8 +6,8 @@ function createList(lstVillage) {
   for (var i = 0; i  < lstVillage.length; i++) {
     var pillage = {};
 
-    pillage.x = lstVillage[i].split('|')[0].replace(/\D/g,''); + "";
-    pillage.y = lstVillage[i].split('|')[1].replace(/\D/g,''); + "";
+    pillage.x = lstVillage[i].split('|')[0].replace(/[^\d|\.\-]/g,'') + "";
+    pillage.y = lstVillage[i].split('|')[1].replace(/[^\d|\.\-]/g,'') + "";
 
     pillageList.push(pillage);
   }
